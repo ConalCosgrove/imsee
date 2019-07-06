@@ -1,0 +1,22 @@
+.Room {
+  margin: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
+  background-color: rgb(255, 45, 45);
+}
+
+.Room.Active {
+  background-color: rgb(33, 179, 28);
+}
+
+div.Room:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.Holder {
+  justify-content: center;
+  display: flex;
+  flex-flow: wrap;
+}
+
