@@ -18,7 +18,7 @@ module.exports = {
 
       createRoom: (roomObject) => generics.post(token, `${REFOCUS_URL}/${ROOM_PATH}`, roomObject),
 
-      updateRoom: (id, roomObject) => generics.patch(token, `${REFOCUS_URL}/${ROOMTYPE_PATH}/${id}`, roomObject),
+      updateRoom: (id, roomObject) => generics.patch(token, `${REFOCUS_URL}/${ROOM_PATH}/${id}`, roomObject),
 
       getRoomTypes: () => generics.get(token, `${REFOCUS_URL}/${ROOMTYPE_PATH}`),
 
