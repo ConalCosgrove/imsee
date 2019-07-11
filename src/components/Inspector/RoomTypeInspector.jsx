@@ -1,53 +1,35 @@
 import React from 'react';
+import Table from './Table';
 
-
+const settings = require('../../env.json');
 const exclude = new Map();
-exclude.set('settings');
+if (settings && settings.toExclude) {
+  const { toExclude } = settings;
+  toExclude.forEach((item) => exclude.set(item, true));
+}
 
-const tracking = {};
-const update = (e, name) => {
-  tracking[name] = e.target.value;
+const buildTable = (data, updateValue) => {
+  return <Table data={data} updateValue={updateValue} exclude={exclude}/>;
+}
+
+const pickTable = (data, updateRoomTypeValue, toShow) => {
+  switch (toShow) {
+    case 0:
+      return buildTable(data, updateRoomTypeValue);
+    case 1:
+      return buildTable(data.settings, updateRoomTypeValue);
+    case 2:
+        return data.settings ? buildTable(data.settings.sharedContext, updateRoomTypeValue) : null;
+    default:
+        return buildTable(data, updateRoomTypeValue , exclude)
+  }
 };
-const Row = ({name, value, updateRoomTypeValue}) => {
-  return (
-  <tr className="Row">
-    <td className="Name">{name}</td>
-    <td className="Value">{JSON.stringify(value)}</td>
-    <td><input className={`${name}-index`} onChange={(e)=>update(e, name)}></input><button onClick={()=>updateRoomTypeValue(tracking[name])}>Update</button></td>
-  </tr>
-  );
-}
 
-const Table = ({data, updateRoomTypeValue}) => {
-  return (
-  <div className="TableContainer">
-    <table className="Table">
-      <tr className="Row">
-        <th>Parameter</th>
-        <th>Value</th>
-        <th>Update</th>
-      </tr>
-      {
-        Object.keys(data).map((key) => {
-          return !exclude.has(key) ? <Row name={key} value={data[key]} updateRoomTypeValue={updateRoomTypeValue(key)}/> : null;
-        })
-      }
-    </table>
-    <textarea className="SettingsInput" defaultValue={JSON.stringify(data.settings)}/>
-    <div className="UpdateSettingsButton">Update Settings</div>
-  </div>
-  );
-}
-
-const buildTable = (data, updateRoomTypeValue) => {
-  return <Table data={data} updateRoomTypeValue={updateRoomTypeValue}/>;
-}
-
-const RoomTypeInspector = ({data, updateRoomTypeValue}) => {
+const RoomTypeInspector = ({data, updateRoomTypeValue, toShow}) => {
   return (
   <div>
     <h1>RoomType: {data.name}</h1>
-    {buildTable(data, updateRoomTypeValue)}
+    {pickTable(data, updateRoomTypeValue, toShow)}
   </div>
   );
 }
