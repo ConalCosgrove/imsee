@@ -4,23 +4,28 @@ const ROOM_PATH = 'rooms';
 const ROOMTYPE_PATH = 'roomTypes';
 const BOT_PATH = 'bots';
 const BOTDATA_PATH = 'botData';
+const LIMIT_PARAM = 'limit'
+const DEFAULT_LIMIT = '0';
+const SORT_BY_ID = 'sort=-id';
+
+const constructLimitString = (defaultLimit) => (limit) => {
+  return `${LIMIT_PARAM}=${limit ? limit : defaultLimit}`;
+}
+
+const constructLimitDefaultZero = constructLimitString(DEFAULT_LIMIT);
 module.exports = {
   api: (token) => {
     return {
 
-      getRooms: () => generics.get(token, `${REFOCUS_URL}/${ROOM_PATH}`),
+      getRooms: (limit) => generics.get(token, `${REFOCUS_URL}/${ROOM_PATH}?${constructLimitDefaultZero(limit)}&${SORT_BY_ID}`),
 
-      /**
-       * @param {String} id - Id of room to get
-       * @returns {Promise} promise resolving to room object
-       */
       getRoom: (id) => generics.get(token, `${REFOCUS_URL}/${ROOM_PATH}/${id}`),
 
       createRoom: (roomObject) => generics.post(token, `${REFOCUS_URL}/${ROOM_PATH}`, roomObject),
 
       updateRoom: (id, roomObject) => generics.patch(token, `${REFOCUS_URL}/${ROOM_PATH}/${id}`, roomObject),
 
-      getRoomTypes: () => generics.get(token, `${REFOCUS_URL}/${ROOMTYPE_PATH}`),
+      getRoomTypes: (limit) => generics.get(token, `${REFOCUS_URL}/${ROOMTYPE_PATH}?${constructLimitDefaultZero(limit)}&${SORT_BY_ID}`),
 
       getRoomType: (id) => generics.get(token, `${REFOCUS_URL}/${ROOMTYPE_PATH}/${id}`),
 

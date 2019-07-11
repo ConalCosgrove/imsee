@@ -1,7 +1,9 @@
 import React from 'react';
 import RoomsHolder from './RoomsHolder.jsx';
 const refocus = require('../../helpers/refocus');
-const token = require('../../env.json').TOKEN;
+const { token } = require('../../env.json');
+const settings = require('../../env.json');
+const { resultLimit } = settings || '0';
 const api = refocus.api(token);
 
 const Connector = Holder =>
@@ -12,7 +14,7 @@ const Connector = Holder =>
     }
 
     componentDidMount() {
-      api.getRooms()
+      api.getRooms(resultLimit)
       .then((data) => {
         this.setState({roomsList: data.body});
       })

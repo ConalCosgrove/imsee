@@ -4,7 +4,7 @@ import Rooms from './Rooms/index.js';
 import Inspector from './Inspector/index.js';
 import './Main.css';
 const refocus = require('../helpers/refocus');
-const token = require('../env.json').TOKEN;
+const { token } = require('../env.json');
 const api = refocus.api(token);
 
 class Main extends React.Component {
