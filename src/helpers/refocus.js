@@ -1,5 +1,5 @@
 const generics = require('./generics.js');
-const REFOCUS_URL = 'http://localhost:3000/v1';
+const REFOCUS_URL = require('../env.json').refocusUrl;
 const ROOM_PATH = 'rooms';
 const ROOMTYPE_PATH = 'roomTypes';
 const BOT_PATH = 'bots';
